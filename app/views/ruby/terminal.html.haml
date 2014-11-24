@@ -1,0 +1,12 @@
+.ui.form
+  .field
+    %label Access Key
+    .ui.left.labled.input
+      %input#access-key-input{type: 'password', placeholder: 'Access Key'}
+
+#terminal
+
+:javascript
+  $(document).ready(function() {
+    startRepl('#terminal')
+  })
