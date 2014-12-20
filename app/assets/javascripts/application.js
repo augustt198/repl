@@ -25,7 +25,11 @@ function startRepl(selector) {
       console.log(json);
 
       requestEval(json, function(res) {
-        appendTerm(res.html, '.terminal-output');
+        if (res.complete) {
+          appendTerm(res.html, '.terminal-output');  
+        } else {
+          term.set_prompt('[' + count + ']* ');  
+        }
       });
 
       term.set_prompt('[' + count + ']> ');

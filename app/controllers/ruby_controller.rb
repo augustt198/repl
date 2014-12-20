@@ -4,8 +4,6 @@ class RubyController < ApplicationController
   end
 
   def ruby_eval
-
-
     val = begin
       json = JSON.parse request.body.gets
 
@@ -16,15 +14,17 @@ class RubyController < ApplicationController
       end
       code = json['command']
 
-      bind = BINDING_LOOKUP[request.remote_addr]
-      bind.eval(code).ai html: true
+      repl_eval(request.remote_addr, code)
     rescue Exception => e
-      "<span style=\"color: red\">#{e.class}: #{e.message}</span>"
+      {
+        html: "<span style=\"color: red\">#{e.class}: #{e.message}</span>",
+        complete: true
+      }
     end
 
     respond_to do |f|
       f.js do
-        render json: {'html' => val}.to_json
+        render json: val.to_json
       end
     end
   end
